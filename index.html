@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+  <title>纳爱斯 · 根源修护力 笑容超元气</title>
+  <style>
+/* ===== Reset & Base ===== */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --mint:#2DB87B;--mint-light:#7EDCB5;--mint-dark:#1A8A56;
+  --cyan:#4ECDC4;--orange:#FF6B35;
+  --white:#F8FFFE;--pure-white:#FFFFFF;
+  --dark-green:#0D3B2E;--charcoal:#1A1A2E;
+  --gray:#6B7B8D;--light-gray:#E8F5F0;
+  --ease-bounce:cubic-bezier(0.34,1.56,0.64,1);
+  --ease-smooth:cubic-bezier(0.25,0.46,0.45,0.94);
+  color-scheme:light;
+}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  font-family:'Noto Sans SC',-apple-system,BlinkMacFont,'Segoe UI',sans-serif;
+  background:var(--white);color:var(--charcoal);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  user-select:none;-webkit-user-select:none;
+  touch-action:manipulation;
+}
+
+/* ===== Page Container ===== */
+.pages-wrapper{
+  width:100%;height:100vh;
+  transition:transform 0.6s var(--ease-smooth);
+  will-change:transform;
+}
+.page{
+  width:100%;height:100vh;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px 24px;
+}
+
+/* ===== Page Enter Animations ===== */
+.page .anim-up{
+  opacity:0;transform:translateY(40px);
+  transition:opacity 0.6s var(--ease-smooth),transform 0.6s var(--ease-bounce);
+}
+.page .anim-scale{
+  opacity:0;transform:scale(0.7);
+  transition:opacity 0.5s var(--ease-smooth),transform 0.5s var(--ease-bounce);
+}
+.page .anim-left{
+  opacity:0;transform:translateX(-30px);
+  transition:opacity 0.5s var(--ease-smooth),transform 0.5s var(--ease-bounce);
+}
+.page .anim-right{
+  opacity:0;transform:translateX(30px);
+  transition:opacity 0.5s var(--ease-smooth),transform 0.5s var(--ease-bounce);
+}
+.page .anim-fade{
+  opacity:0;
+  transition:opacity 0.6s var(--ease-smooth);
+}
+.page.active .anim-up,
+.page.active .anim-scale,
+.page.active .anim-left,
+.page.active .anim-right,
+.page.active .anim-fade{
+  opacity:1;transform:translate(0) scale(1);
+}
+.page.active .anim-d1{transition-delay:0.1s}
+.page.active .anim-d2{transition-delay:0.2s}
+.page.active .anim-d3{transition-delay:0.3s}
+.page.active .anim-d4{transition-delay:0.4s}
+.page.active .anim-d5{transition-delay:0.5s}
+.page.active .anim-d6{transition-delay:0.6s}
+.page.active .anim-d7{transition-delay:0.7s}
+.page.active .anim-d8{transition-delay:0.8s}
+
+/* ===== Navigation Dots ===== */
+.nav-dots{
+  position:fixed;right:12px;top:50%;transform:translateY(-50%);
+  z-index:1000;display:flex;flex-direction:column;gap:8px;
+}
+.nav-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(45,184,123,0.25);
+  transition:all 0.4s var(--ease-bounce);cursor:pointer;
+  border:none;outline:none;
+}
+.nav-dot.active{
+  background:var(--mint);
+  height:24px;border-radius:4px;
+  box-shadow:0 0 8px rgba(45,184,123,0.5);
+}
+
+/* ===== Page Indicator ===== */
+.page-indicator{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  z-index:1000;font-size:11px;color:var(--gray);letter-spacing:1px;
+  background:rgba(255,255,255,0.85);padding:4px 14px;border-radius:12px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+
+/* ===== Scroll Hint ===== */
+.scroll-hint{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  animation:scrollBounce 2s ease-in-out infinite;
+}
+.scroll-hint span{font-size:11px;color:var(--gray);letter-spacing:2px}
+.scroll-hint-arrow{
+  width:16px;height:16px;
+  border-right:2px solid var(--mint);border-bottom:2px solid var(--mint);
+  transform:rotate(45deg);opacity:0.6;
+}
+@keyframes scrollBounce{
+  0%,100%{transform:translateX(-50%) translateY(0)}
+  50%{transform:translateX(-50%) translateY(8px)}
+}
+
+/* ===== Common Elements ===== */
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:14px 44px;border-radius:50px;
+  background:linear-gradient(135deg,var(--mint),var(--cyan));
+  color:var(--pure-white);font-size:16px;font-weight:700;
+  letter-spacing:3px;border:none;cursor:pointer;
+  box-shadow:0 6px 24px rgba(45,184,123,0.35);
+  transition:all 0.3s var(--ease-bounce);
+  position:relative;overflow:hidden;
+}
+.btn-primary:hover{transform:scale(1.05);box-shadow:0 8px 32px rgba(45,184,123,0.45)}
+.btn-primary:active{transform:scale(0.96)}
+.btn-primary::after{
+  content:'';position:absolute;top:50%;left:50%;
+  width:0;height:0;background:rgba(255,255,255,0.25);
+  border-radius:50%;transform:translate(-50%,-50%);
+  transition:width 0.6s,height 0.6s;
+}
+.btn-primary:active::after{width:300px;height:300px}
+
+.section-title{
+  font-size:26px;font-weight:900;color:var(--charcoal);
+  text-align:center;line-height:1.35;letter-spacing:2px;
+  margin-bottom:4px;
+}
+.section-subtitle{
+  font-size:13px;color:var(--gray);text-align:center;
+  line-height:1.5;margin-top:0;letter-spacing:1px;
+  margin-bottom:12px;
+}
+
+/* ===== Glassmorphism card ===== */
+.glass-card{
+  background:rgba(255,255,255,0.8);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.6);
+  border-radius:20px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.05);
+}
+
+/* ===== Screen 1: Opening ===== */
+.page-opening{
+  background:linear-gradient(170deg,#EAFBF2 0%,#F4FDF8 40%,var(--white) 80%,#FAFFFE 100%);
+}
+.opening-bg-circle{
+  position:absolute;border-radius:50%;pointer-events:none;
+  filter:blur(50px);opacity:0.4;
+}
+.opening-bg-circle.c1{width:240px;height:240px;background:rgba(45,184,123,0.12);top:-40px;right:-60px}
+.opening-bg-circle.c2{width:180px;height:180px;background:rgba(78,205,196,0.1);bottom:100px;left:-50px}
+.opening-bg-circle.c3{width:100px;height:100px;background:rgba(255,107,53,0.06);top:40%;right:-20px}
+.opening-content{display:flex;flex-direction:column;align-items:center;gap:22px;z-index:2}
+.opening-logo-img{
+  width:130px;height:auto;object-fit:contain;
+  filter:drop-shadow(0 4px 16px rgba(45,184,123,0.15));
+}
+.opening-slogan{
+  font-size:22px;font-weight:900;letter-spacing:4px;text-align:center;
+  line-height:1.5;color:var(--dark-green);
+}
+.opening-product-img{
+  width:200px;height:auto;object-fit:contain;
+  filter:drop-shadow(0 12px 32px rgba(45,184,123,0.15));
+}
+
+/* Floating leaves for opening */
+.leaf-particle{
+  position:absolute;pointer-events:none;z-index:1;
+  animation:leafFall linear infinite;
+  filter:drop-shadow(0 2px 4px rgba(45,184,123,0.1));
+}
+@keyframes leafFall{
+  0%{transform:translateY(-10vh) rotate(0deg) scale(1);opacity:0.6}
+  30%{opacity:0.8}
+  100%{transform:translateY(110vh) rotate(360deg) scale(0.5);opacity:0}
+}
+
+/* ===== Screen 2: Pain Points ===== */
+.page-pain{
+  background:linear-gradient(170deg,var(--white) 0%,#FFF8F6 50%,#FFF3F0 100%);
+}
+.pain-bubbles{display:flex;flex-direction:column;gap:16px;width:100%;max-width:320px;z-index:2}
+.pain-bubble{
+  position:relative;padding:20px 24px 20px 20px;border-radius:20px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(0,0,0,0.04);
+  transition:all 0.4s var(--ease-bounce);
+  border:2px solid transparent;overflow:hidden;
+}
+.pain-bubble:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.06)}
+.pain-bubble.bleeding{border-color:rgba(255,107,107,0.35)}
+.pain-bubble.odor{border-color:rgba(255,179,71,0.35)}
+.pain-bubble.swelling{border-color:rgba(255,143,163,0.35)}
+.pain-bubble-icon{font-size:26px;margin-bottom:6px}
+.pain-bubble-title{font-size:16px;font-weight:700;color:var(--charcoal)}
+.pain-bubble-desc{
+  font-size:13px;color:var(--gray);line-height:1.7;
+  max-height:0;overflow:hidden;
+  transition:max-height 0.5s var(--ease-smooth),margin-top 0.3s;
+}
+.pain-bubble.revealed .pain-bubble-desc{max-height:80px;margin-top:8px}
+.pain-bubble-tag{
+  position:absolute;top:12px;right:12px;
+  font-size:10px;padding:3px 10px;border-radius:10px;
+  color:var(--pure-white);font-weight:600;letter-spacing:1px;
+}
+.pain-bubble.bleeding .pain-bubble-tag{background:#FF6B6B}
+.pain-bubble.odor .pain-bubble-tag{background:#FFB347}
+.pain-bubble.swelling .pain-bubble-tag{background:#FF8FA3}
+
+/* ===== Screen 3: Root Cause ===== */
+.page-root{
+  background:linear-gradient(170deg,#1A5C48 0%,#208060 40%,#28A070 100%);
+  color:var(--pure-white);
+}
+.root-glow{
+  position:absolute;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(45,184,123,0.18) 0%,transparent 70%);
+  pointer-events:none;
+}
+.root-glow.g1{top:-80px;right:-80px}
+.root-glow.g2{bottom:-60px;left:-60px;background:radial-gradient(circle,rgba(255,107,53,0.08) 0%,transparent 70%)}
+.root-content{display:flex;flex-direction:column;align-items:center;gap:24px;z-index:2;text-align:center}
+.root-title{font-size:24px;font-weight:900;color:var(--pure-white);letter-spacing:2px;line-height:1.4}
+.root-desc{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.7}
+.root-press-area{
+  width:180px;height:180px;border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  border:2px dashed rgba(255,255,255,0.3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  cursor:pointer;transition:all 0.3s;
+  position:relative;
+}
+.root-press-area::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.1);
+  animation:pressRingPulse 2.5s ease-in-out infinite;
+}
+@keyframes pressRingPulse{
+  0%,100%{transform:scale(1);opacity:0.5}
+  50%{transform:scale(1.08);opacity:0.2}
+}
+.root-press-area:active,.root-press-area.pressing{
+  background:rgba(45,184,123,0.2);border-color:var(--mint);
+  transform:scale(0.95);
+  box-shadow:0 0 40px rgba(45,184,123,0.25);
+}
+.root-press-icon{font-size:36px;animation:pulse 2s ease-in-out infinite}
+.root-press-text{font-size:12px;color:rgba(255,255,255,0.55);letter-spacing:1px}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+
+.root-reveal{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  background:linear-gradient(170deg,#1A5C48 0%,#208060 40%,#28A070 100%);
+  z-index:3;opacity:0;pointer-events:none;
+  transition:opacity 0.8s var(--ease-smooth);
+}
+.root-reveal.show{opacity:1;pointer-events:auto}
+.root-reveal-title{font-size:26px;font-weight:900;color:var(--orange);letter-spacing:3px;line-height:1.4}
+.root-reveal-desc{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.8;max-width:280px;text-align:center}
+.root-bacteria{display:flex;gap:16px;margin-top:12px}
+.root-bacteria-item{
+  width:64px;height:64px;border-radius:50%;
+  background:rgba(255,107,53,0.12);border:1px solid rgba(255,107,53,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  animation:bacteriaFloat 3s ease-in-out infinite;
+}
+.root-bacteria-item:nth-child(2){animation-delay:0.5s}
+.root-bacteria-item:nth-child(3){animation-delay:1s}
+@keyframes bacteriaFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* ===== Screen 4: Product ===== */
+.page-product{
+  background:linear-gradient(170deg,var(--white) 0%,#F2FBF7 50%,#E6F7EE 100%);
+}
+.product-content{display:flex;flex-direction:column;align-items:center;gap:18px;z-index:2}
+.product-tube-img-wrap{
+  position:relative;
+  animation:productFloat 4s ease-in-out infinite;
+}
+.product-tube-img-wrap::before{
+  content:'';position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);
+  width:120px;height:20px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(45,184,123,0.12) 0%,transparent 70%);
+  animation:shadowPulse 4s ease-in-out infinite;
+}
+@keyframes shadowPulse{
+  0%,100%{transform:translateX(-50%) scaleX(1);opacity:0.5}
+  50%{transform:translateX(-50%) scaleX(0.8);opacity:0.2}
+}
+.product-tube-img{
+  width:150px;height:auto;object-fit:contain;
+  filter:drop-shadow(0 8px 24px rgba(45,184,123,0.15));
+}
+@keyframes productFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.product-info{text-align:center}
+.product-name{font-size:18px;font-weight:700;color:var(--dark-green);letter-spacing:1px}
+.product-subname{font-size:14px;color:var(--mint);font-weight:600;margin-top:4px}
+.product-tech{font-size:12px;color:var(--gray);margin-top:6px;letter-spacing:0.5px}
+
+/* ===== Screen 5: GUM4X ===== */
+.page-tech{
+  background:linear-gradient(170deg,#F2FBF7 0%,var(--white) 50%,#FAFFFE 100%);
+}
+.tech-content{display:flex;flex-direction:column;align-items:center;gap:20px;z-index:2;width:100%;max-width:340px}
+.tech-center{
+  width:100px;height:100px;border-radius:50%;
+  background:linear-gradient(135deg,var(--mint),var(--cyan));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 40px rgba(45,184,123,0.2),0 0 80px rgba(78,205,196,0.08);
+  position:relative;z-index:2;
+}
+.tech-center::after{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:2px solid rgba(45,184,123,0.15);
+  animation:techRing 3s ease-in-out infinite;
+}
+@keyframes techRing{
+  0%,100%{transform:scale(1);opacity:0.5}
+  50%{transform:scale(1.1);opacity:0.15}
+}
+.tech-center-text{color:var(--pure-white);font-size:14px;font-weight:700;letter-spacing:1px}
+.tech-nodes{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.tech-node{
+  width:140px;padding:18px 14px;border-radius:18px;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.6);
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,0.03);
+  transition:all 0.4s var(--ease-bounce);
+  text-align:center;border:2px solid transparent;
+}
+.tech-node:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,0.06)}
+.tech-node.active{border-color:var(--mint);background:rgba(240,255,248,0.95);box-shadow:0 8px 28px rgba(45,184,123,0.1)}
+.tech-node-icon{font-size:30px;margin-bottom:6px}
+.tech-node-title{font-size:14px;font-weight:700;color:var(--charcoal)}
+.tech-node-desc{
+  font-size:12px;color:var(--gray);line-height:1.6;
+  max-height:0;overflow:hidden;transition:max-height 0.4s var(--ease-smooth);
+}
+.tech-node.active .tech-node-desc{max-height:80px;margin-top:6px}
+
+/* ===== Screen 6: Ingredients ===== */
+.page-ingredients{
+  background:linear-gradient(170deg,var(--white) 0%,#F6FDF9 50%,#F0FBF5 100%);
+}
+.ingredients-content{display:flex;flex-direction:column;align-items:center;gap:20px;z-index:2}
+.ingredients-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:320px}
+.ingredient-card{
+  padding:22px 16px;border-radius:20px;cursor:pointer;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.5);
+  box-shadow:0 4px 16px rgba(0,0,0,0.03);
+  transition:all 0.4s var(--ease-bounce);
+  text-align:center;position:relative;overflow:hidden;
+}
+.ingredient-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--mint),var(--cyan));
+  transform:scaleX(0);transition:transform 0.3s var(--ease-smooth);
+  transform-origin:left;
+}
+.ingredient-card.active::before{transform:scaleX(1)}
+.ingredient-card:hover{transform:scale(1.03);box-shadow:0 8px 24px rgba(0,0,0,0.05)}
+.ingredient-card.active{background:var(--mint);color:var(--pure-white);border-color:var(--mint)}
+.ingredient-card.active .ingredient-name{color:var(--pure-white)}
+.ingredient-card.active .ingredient-effect{color:rgba(255,255,255,0.85)}
+.ingredient-emoji{font-size:36px;margin-bottom:8px}
+.ingredient-name{font-size:15px;font-weight:700;color:var(--charcoal);transition:color 0.3s}
+.ingredient-effect{
+  font-size:12px;color:var(--gray);line-height:1.6;
+  max-height:0;overflow:hidden;transition:max-height 0.4s var(--ease-smooth);
+}
+.ingredient-card.active .ingredient-effect{max-height:60px;margin-top:6px}
+
+/* ===== Screen 7: Data ===== */
+.page-data{
+  background:linear-gradient(170deg,var(--white) 0%,#F6FDF9 50%,#F0FBF5 100%);
+}
+.data-content{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:0;z-index:2;width:100%;padding:0 20px;box-sizing:border-box}
+.data-cards{display:flex;flex-direction:column;gap:12px;width:100%;max-width:340px}
+.data-card{perspective:800px;cursor:pointer;width:100%}
+.data-card-inner{
+  width:100%;position:relative;
+  transition:transform 0.6s var(--ease-bounce);
+  transform-style:preserve-3d;
+}
+.data-card.flipped .data-card-inner{transform:rotateY(180deg)}
+.data-card-front,.data-card-back{
+  position:absolute;inset:0;border-radius:16px;
+  display:flex;flex-direction:row;align-items:center;
+  backface-visibility:hidden;padding:16px 20px;
+  box-sizing:border-box;
+}
+.data-card-front{
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(45,184,123,0.12);
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);
+  gap:16px;
+}
+.data-card-back{
+  background:linear-gradient(135deg,var(--mint),#3CC99A);
+  transform:rotateY(180deg);color:var(--pure-white);
+  box-shadow:0 4px 24px rgba(45,184,123,0.18);
+  flex-direction:column;justify-content:center;text-align:center;
+  gap:6px;
+}
+.data-icon-wrap{
+  flex-shrink:0;width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(45,184,123,0.1),rgba(78,205,196,0.1));
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+}
+.data-text-wrap{flex:1;min-width:0}
+.data-number{font-size:32px;font-weight:900;color:var(--mint);letter-spacing:1px;line-height:1.1}
+.data-unit{font-size:13px;color:#6B7B8A;margin-top:4px;line-height:1.4}
+.data-back-title{font-size:16px;font-weight:700;letter-spacing:1px}
+.data-back-desc{font-size:13px;line-height:1.7;opacity:0.92}
+.data-hint{font-size:12px;color:#9AA8B3;animation:pulse 2s ease-in-out infinite;letter-spacing:1px;margin-top:4px}
+
+/* ===== Screen 8: Brushing ===== */
+.page-brush{
+  background:linear-gradient(170deg,#F0FBF9 0%,#F8FFFE 50%,var(--white) 100%);
+}
+.brush-content{display:flex;flex-direction:column;align-items:center;gap:16px;z-index:2}
+.tooth-area{
+  width:280px;height:220px;position:relative;
+  border-radius:24px;overflow:hidden;
+  background:var(--pure-white);
+  box-shadow:0 8px 32px rgba(0,0,0,0.05),0 0 0 1px rgba(0,0,0,0.02);
+}
+.tooth-row{display:flex;justify-content:center;gap:4px;margin:8px auto}
+.tooth{
+  width:32px;height:36px;border-radius:4px 4px 8px 8px;
+  position:relative;transition:all 0.6s var(--ease-smooth);
+}
+.tooth.dirty{background:linear-gradient(180deg,#F5E6CA,#E8D5A8)}
+.tooth.clean{
+  background:linear-gradient(180deg,#FFFFFF,#F0F8FF);
+  box-shadow:0 0 10px rgba(45,184,123,0.2);
+}
+.tooth-gum{width:100%;height:8px;border-radius:4px 4px 0 0;margin-bottom:2px;transition:background 0.5s}
+.tooth-gum.inflamed{background:#FF8FA3}
+.tooth-gum.healthy{background:#FFB3C1}
+.foam-particle{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,0.9);pointer-events:none;
+  animation:foamPop 0.8s ease-out forwards;
+}
+@keyframes foamPop{
+  0%{transform:scale(0);opacity:1}
+  50%{transform:scale(1.5);opacity:0.8}
+  100%{transform:scale(0.5);opacity:0}
+}
+.brush-progress{
+  width:240px;height:8px;border-radius:4px;background:#EEE;overflow:hidden;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,0.06);
+}
+.brush-progress-bar{
+  height:100%;border-radius:4px;
+  background:linear-gradient(90deg,var(--mint),var(--cyan));
+  width:0;transition:width 0.3s;
+  box-shadow:0 0 8px rgba(45,184,123,0.25);
+}
+.brush-text{font-size:13px;color:var(--gray);letter-spacing:0.5px}
+
+/* ===== Screen 9: Before/After ===== */
+.page-compare{
+  background:linear-gradient(170deg,var(--white) 0%,#F8FFFE 50%,#F4FDF8 100%);
+}
+.compare-content{display:flex;flex-direction:column;align-items:center;gap:20px;z-index:2}
+.compare-container{
+  width:300px;height:360px;position:relative;border-radius:24px;overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,0.08),0 0 0 1px rgba(0,0,0,0.02);
+}
+.compare-before,.compare-after{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  padding:20px;
+}
+.compare-before{background:linear-gradient(180deg,#FFF5E6,#FFE8CC)}
+.compare-after{background:linear-gradient(180deg,#F0FBF5,#E0F5EA);clip-path:inset(0 50% 0 0)}
+.compare-smile{font-size:72px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.08))}
+.compare-state{font-size:15px;font-weight:700;text-align:center}
+.compare-state.before-state{color:#996633}
+.compare-state.after-state{color:var(--mint)}
+.compare-desc{font-size:12px;text-align:center;line-height:1.8}
+.compare-desc.before-desc{color:#AA8855}
+.compare-desc.after-desc{color:var(--mint-dark)}
+.compare-label{
+  padding:6px 18px;border-radius:12px;font-size:12px;font-weight:600;
+  letter-spacing:1px;
+}
+.compare-before .compare-label{background:rgba(255,107,53,0.1);color:var(--orange)}
+.compare-after .compare-label{background:rgba(45,184,123,0.1);color:var(--mint)}
+.compare-slider{
+  position:absolute;top:0;bottom:0;width:4px;
+  background:var(--pure-white);cursor:ew-resize;z-index:10;
+  left:50%;box-shadow:0 0 12px rgba(0,0,0,0.12);
+}
+.compare-slider-handle{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:40px;height:40px;border-radius:50%;
+  background:var(--pure-white);box-shadow:0 2px 16px rgba(0,0,0,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--mint);font-weight:700;
+}
+
+/* ===== Screen 10: Product Family ===== */
+.page-family{
+  background:linear-gradient(170deg,var(--white) 0%,#F2FBF7 50%,#E6F7EE 100%);
+}
+.family-content{display:flex;flex-direction:column;align-items:center;gap:20px;z-index:2}
+.family-scroll{
+  display:flex;gap:16px;overflow-x:auto;
+  padding:10px 20px;width:100%;max-width:360px;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.family-scroll::-webkit-scrollbar{display:none}
+.family-card{
+  min-width:220px;flex-shrink:0;
+  padding:24px 20px;border-radius:22px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.6);
+  box-shadow:0 8px 32px rgba(0,0,0,0.04);
+  scroll-snap-align:center;
+  transition:transform 0.3s var(--ease-bounce);
+  display:flex;flex-direction:column;align-items:center;
+}
+.family-card:active{transform:scale(0.97)}
+.family-card-img{
+  width:110px;height:auto;object-fit:contain;margin-bottom:12px;
+  filter:drop-shadow(0 6px 16px rgba(45,184,123,0.12));
+}
+.family-card-name{font-size:15px;font-weight:700;color:var(--charcoal);text-align:center;letter-spacing:1px}
+.family-card-spec{font-size:12px;color:var(--gray);text-align:center;margin-top:4px}
+.family-card-features{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.family-card-feature{
+  font-size:12px;color:var(--mint-dark);padding:6px 10px;
+  background:var(--light-gray);border-radius:10px;text-align:center;
+  letter-spacing:0.5px;
+}
+
+/* ===== Screen 11: Mint Challenge ===== */
+.page-game{
+  background:linear-gradient(170deg,#1A6B50 0%,#228B66 40%,#2DA87A 100%);
+}
+.game-content{display:flex;flex-direction:column;align-items:center;gap:16px;z-index:2;width:100%}
+.game-header{display:flex;justify-content:space-between;width:100%;max-width:320px;color:var(--pure-white)}
+.game-score{font-size:18px;font-weight:700;letter-spacing:1px}
+.game-timer{font-size:18px;font-weight:700;color:var(--orange)}
+.game-area{
+  width:100%;max-width:320px;height:380px;
+  position:relative;border-radius:22px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  overflow:hidden;
+  box-shadow:inset 0 0 40px rgba(0,0,0,0.08);
+}
+.game-leaf{
+  position:absolute;font-size:32px;cursor:pointer;
+  transition:transform 0.15s;
+  animation:gameLeafFall linear forwards;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+}
+.game-leaf:active{transform:scale(1.5)}
+@keyframes gameLeafFall{
+  0%{transform:translateY(-40px) rotate(0deg);opacity:1}
+  100%{transform:translateY(400px) rotate(360deg);opacity:0.3}
+}
+.game-start-btn{
+  padding:14px 36px;border-radius:50px;
+  background:linear-gradient(135deg,var(--orange),#FF8A50);
+  color:var(--pure-white);font-size:15px;font-weight:700;
+  border:none;cursor:pointer;letter-spacing:2px;
+  box-shadow:0 6px 24px rgba(255,107,53,0.3);
+  transition:all 0.3s var(--ease-bounce);
+}
+.game-start-btn:active{transform:scale(0.95)}
+.game-result{
+  color:var(--pure-white);text-align:center;
+  display:none;flex-direction:column;align-items:center;gap:8px;
+}
+.game-result.show{display:flex}
+.game-result-score{font-size:42px;font-weight:900;color:var(--orange)}
+.game-result-text{font-size:14px;opacity:0.8;letter-spacing:1px}
+
+/* ===== Screen 12: Reviews ===== */
+.page-reviews{
+  background:linear-gradient(170deg,var(--white) 0%,#F6FDF9 50%,#F0FBF5 100%);
+}
+.reviews-content{display:flex;flex-direction:column;align-items:center;gap:20px;z-index:2}
+.reviews-carousel{
+  width:100%;max-width:320px;overflow:hidden;position:relative;
+}
+.reviews-track{
+  display:flex;transition:transform 0.5s var(--ease-smooth);
+}
+.review-card{
+  min-width:100%;padding:24px 20px;border-radius:22px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.5);
+  box-shadow:0 8px 32px rgba(0,0,0,0.04);
+}
+.review-stars{color:var(--orange);font-size:16px;margin-bottom:10px;letter-spacing:2px}
+.review-text{font-size:14px;line-height:1.8;color:var(--charcoal)}
+.review-author{
+  display:flex;align-items:center;gap:10px;margin-top:16px;
+  padding-top:14px;border-top:1px solid var(--light-gray);
+}
+.review-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--light-gray);display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+}
+.review-name{font-size:13px;font-weight:600;color:var(--charcoal)}
+.review-tag{font-size:11px;color:var(--mint);font-weight:500}
+.reviews-dots{display:flex;gap:6px;margin-top:8px}
+.reviews-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(45,184,123,0.2);transition:all 0.3s;
+}
+.reviews-dot.active{background:var(--mint);width:18px;border-radius:3px}
+.cert-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.cert-tag{
+  font-size:11px;padding:5px 12px;
+  background:rgba(240,255,248,0.8);border-radius:10px;
+  color:var(--mint-dark);font-weight:500;letter-spacing:0.5px;
+  border:1px solid rgba(45,184,123,0.12);
+}
+
+/* ===== Screen 13: CTA ===== */
+.page-cta{
+  background:linear-gradient(170deg,#E6F7EE 0%,#C8EDD6 40%,#A0DDC0 100%);
+  position:relative;
+}
+.page-cta .cta-glow{
+  position:absolute;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.2) 0%,transparent 70%);
+  pointer-events:none;top:-60px;left:-60px;
+}
+.cta-content{display:flex;flex-direction:column;align-items:center;gap:20px;z-index:2;text-align:center}
+.cta-logo{width:110px;height:auto;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.08))}
+.cta-slogan{
+  font-size:28px;font-weight:900;color:var(--dark-green);letter-spacing:4px;line-height:1.4;
+}
+.cta-sub{font-size:13px;color:var(--mint-dark);line-height:1.7;letter-spacing:1px}
+.cta-values{display:flex;gap:12px;width:100%;max-width:340px;margin-top:4px}
+.cta-value-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:18px 8px;border-radius:18px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.5);
+  transition:all 0.3s var(--ease-bounce);
+}
+.cta-value-item:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.04)}
+.cta-value-icon{font-size:28px}
+.cta-value-text{font-size:12px;font-weight:700;color:var(--dark-green);text-align:center;line-height:1.4}
+.cta-value-text small{font-size:10px;font-weight:400;color:var(--mint-dark);display:block;margin-top:3px;line-height:1.4}
+.cta-footer{margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.cta-brand{font-size:12px;color:var(--mint-dark);letter-spacing:4px;opacity:0.5}
+.cta-slogan-small{font-size:11px;color:var(--mint-dark);opacity:0.4;letter-spacing:3px}
+
+/* ===== Canvas overlay for particles ===== */
+#particle-canvas{
+  position:fixed;inset:0;pointer-events:none;z-index:999;
+}
+
+/* ===== Ripple Effect ===== */
+.ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(45,184,123,0.12);
+  transform:scale(0);animation:rippleAnim 0.6s ease-out forwards;
+  pointer-events:none;
+}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+/* ===== Toast ===== */
+.h5-toast{
+  animation:toastIn 0.3s var(--ease-bounce);
+}
+@keyframes toastIn{0%{opacity:0;transform:translate(-50%,-50%) scale(0.8)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+
+/* ===== Responsive ===== */
+@media(max-width:360px){
+  .section-title{font-size:22px}
+  .product-tube-img{width:120px}
+  .opening-product-img{width:170px}
+  .tooth-area{width:250px;height:195px}
+  .compare-container{width:270px;height:320px}
+  .cta-slogan{font-size:24px}
+}
+@media(min-width:768px){
+  .pages-wrapper{max-width:430px;margin:0 auto}
+  .nav-dots{right:calc(50% - 230px)}
+}
+  </style>
+</head>
+<body>
+
+<!-- Particle Canvas -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Navigation Dots -->
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- Page Indicator -->
+<div class="page-indicator" id="pageIndicator">1 / 13</div>
+
+<!-- Pages Wrapper -->
+<div class="pages-wrapper" id="pagesWrapper">
+
+  <!-- ========== Screen 1: Opening ========== -->
+  <section class="page page-opening active" data-index="0">
+    <div class="opening-bg-circle c1"></div>
+    <div class="opening-bg-circle c2"></div>
+    <div class="opening-bg-circle c3"></div>
+    <div class="leaf-particle" style="left:10%;animation-duration:7s;animation-delay:0s;font-size:22px">🍃</div>
+    <div class="leaf-particle" style="left:30%;animation-duration:9s;animation-delay:1.5s;font-size:18px">🌿</div>
+    <div class="leaf-particle" style="left:55%;animation-duration:8s;animation-delay:0.8s;font-size:24px">☘️</div>
+    <div class="leaf-particle" style="left:75%;animation-duration:10s;animation-delay:2.5s;font-size:20px">🍃</div>
+    <div class="leaf-particle" style="left:90%;animation-duration:7.5s;animation-delay:3.8s;font-size:16px">🍀</div>
+    <div class="opening-content">
+      <img src="logo.png" alt="纳爱斯" class="opening-logo-img anim-scale anim-d1">
+      <div class="opening-slogan anim-up anim-d2">根源修护力<br>笑容超元气</div>
+      <img src="product-120g.png" alt="纳爱斯养龈健齿牙膏" class="opening-product-img anim-scale anim-d3">
+      <button class="btn-primary anim-up anim-d4" onclick="goToPage(1)">开始体验</button>
+    </div>
+    <div class="scroll-hint anim-fade anim-d5">
+      <span>向上滑动</span>
+      <div class="scroll-hint-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 2: Pain Points ========== -->
+  <section class="page page-pain" data-index="1">
+    <div class="section-title anim-up anim-d1">你的口腔<br>正在经历什么？</div>
+    <div class="section-subtitle anim-up anim-d2">点击了解三大口腔困扰</div>
+    <div class="pain-bubbles">
+      <div class="pain-bubble bleeding anim-left anim-d3" onclick="togglePain(this)">
+        <span class="pain-bubble-tag">常见</span>
+        <div class="pain-bubble-icon">🩸</div>
+        <div class="pain-bubble-title">牙龈出血</div>
+        <div class="pain-bubble-desc">刷牙时牙龈频繁出血，是牙周问题的早期信号</div>
+      </div>
+      <div class="pain-bubble odor anim-up anim-d4" onclick="togglePain(this)">
+        <span class="pain-bubble-tag">困扰</span>
+        <div class="pain-bubble-icon">💨</div>
+        <div class="pain-bubble-title">口腔异味</div>
+        <div class="pain-bubble-desc">有害菌滋生导致的异味，影响社交与自信</div>
+      </div>
+      <div class="pain-bubble swelling anim-right anim-d5" onclick="togglePain(this)">
+        <span class="pain-bubble-tag">警示</span>
+        <div class="pain-bubble-icon">😣</div>
+        <div class="pain-bubble-title">牙龈红肿</div>
+        <div class="pain-bubble-desc">牙龈红肿疼痛，根源是牙菌斑的持续侵害</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 3: Root Cause ========== -->
+  <section class="page page-root" data-index="2">
+    <div class="root-glow g1"></div>
+    <div class="root-glow g2"></div>
+    <div class="root-content">
+      <div class="root-title anim-up anim-d1">问题不在表面</div>
+      <div class="root-desc anim-up anim-d2">真正的口腔问题，藏在你看不见的地方</div>
+      <div class="root-press-area anim-scale anim-d3" id="rootPressArea"
+           ontouchstart="startRootPress()" ontouchend="endRootPress()"
+           onmousedown="startRootPress()" onmouseup="endRootPress()">
+        <div class="root-press-icon">🔍</div>
+        <div class="root-press-text">长按探查</div>
+      </div>
+      <div class="root-desc anim-fade anim-d4">按住不放，深入探索根源</div>
+    </div>
+    <!-- Reveal overlay -->
+    <div class="root-reveal" id="rootReveal">
+      <div class="root-reveal-title">牙菌斑<br>才是根源！</div>
+      <div class="root-reveal-desc">牙菌斑是引发牙龈问题的根本原因，只有从根源修护，才能彻底改善口腔健康</div>
+      <div class="root-bacteria">
+        <div class="root-bacteria-item">🦠</div>
+        <div class="root-bacteria-item">🔬</div>
+        <div class="root-bacteria-item">🧫</div>
+      </div>
+      <button class="btn-primary" onclick="goToPage(3)" style="margin-top:20px">了解修护方案</button>
+    </div>
+  </section>
+
+  <!-- ========== Screen 4: Product ========== -->
+  <section class="page page-product" data-index="3">
+    <div class="section-title anim-up anim-d1">根源修护<br>从自然开始</div>
+    <div class="section-subtitle anim-up anim-d2">纳爱斯养龈健齿牙膏清火护龈</div>
+    <div class="product-content">
+      <div class="product-tube-img-wrap anim-scale anim-d3">
+        <img src="tube-120g.png" alt="纳爱斯清火护龈牙膏" class="product-tube-img">
+      </div>
+      <div class="product-info anim-up anim-d4">
+        <div class="product-name">清火护龈牙膏</div>
+        <div class="product-subname">本草薄荷香型 · 120g</div>
+        <div class="product-tech">GUM4X牙龈修护科技™</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 5: GUM4X Tech ========== -->
+  <section class="page page-tech" data-index="4">
+    <div class="section-title anim-up anim-d1">GUM4X<br>牙龈修护科技</div>
+    <div class="section-subtitle anim-up anim-d2">科技+草本+维他命 协同增效</div>
+    <div class="tech-content">
+      <div class="tech-center anim-scale anim-d2">
+        <div class="tech-center-text">GUM<br>4X</div>
+      </div>
+      <div class="tech-nodes">
+        <div class="tech-node anim-left anim-d3" onclick="toggleTechNode(this)">
+          <div class="tech-node-icon">🛡️</div>
+          <div class="tech-node-title">修护牙龈</div>
+          <div class="tech-node-desc">深层修护受损牙龈组织，增强牙龈自我修复力</div>
+        </div>
+        <div class="tech-node anim-right anim-d3" onclick="toggleTechNode(this)">
+          <div class="tech-node-icon">⚔️</div>
+          <div class="tech-node-title">抑制有害菌</div>
+          <div class="tech-node-desc">99.99%抑制口腔有害菌能力，从根源阻断问题</div>
+        </div>
+        <div class="tech-node anim-left anim-d4" onclick="toggleTechNode(this)">
+          <div class="tech-node-icon">🌿</div>
+          <div class="tech-node-title">草本精粹</div>
+          <div class="tech-node-desc">金银花+黄芩+连翘，三重草本清火护龈</div>
+        </div>
+        <div class="tech-node anim-right anim-d4" onclick="toggleTechNode(this)">
+          <div class="tech-node-icon">💎</div>
+          <div class="tech-node-title">维他命养护</div>
+          <div class="tech-node-desc">维他命E深层滋养，促进牙龈健康再生</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 6: Ingredients ========== -->
+  <section class="page page-ingredients" data-index="5">
+    <div class="section-title anim-up anim-d1">草本精粹<br>自然修护力</div>
+    <div class="section-subtitle anim-up anim-d2">点击探索四大核心成分</div>
+    <div class="ingredients-content">
+      <div class="ingredients-grid">
+        <div class="ingredient-card anim-scale anim-d3" onclick="toggleIngredient(this)">
+          <div class="ingredient-emoji">🌸</div>
+          <div class="ingredient-name">金银花</div>
+          <div class="ingredient-effect">清热解毒，有效缓解牙龈红肿发炎</div>
+        </div>
+        <div class="ingredient-card anim-scale anim-d4" onclick="toggleIngredient(this)">
+          <div class="ingredient-emoji">🌿</div>
+          <div class="ingredient-name">黄芩</div>
+          <div class="ingredient-effect">抗菌消炎，抑制口腔有害菌滋生</div>
+        </div>
+        <div class="ingredient-card anim-scale anim-d5" onclick="toggleIngredient(this)">
+          <div class="ingredient-emoji">💜</div>
+          <div class="ingredient-name">连翘</div>
+          <div class="ingredient-effect">清热散结，辅助改善口腔上火症状</div>
+        </div>
+        <div class="ingredient-card anim-scale anim-d6" onclick="toggleIngredient(this)">
+          <div class="ingredient-emoji">✨</div>
+          <div class="ingredient-name">维他命E</div>
+          <div class="ingredient-effect">深层滋养牙龈，促进受损黏膜修复</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 7: Data ========== -->
+  <section class="page page-data" data-index="6">
+    <div class="data-content">
+      <div class="section-title anim-up anim-d1">数据验证<br>实力说话</div>
+      <div class="section-subtitle anim-up anim-d2">点击卡片翻转查看详情</div>
+      <div class="data-cards">
+        <div class="data-card anim-left anim-d3" onclick="flipDataCard(this)">
+          <div class="data-card-inner">
+            <div class="data-card-front">
+              <div class="data-icon-wrap">🔬</div>
+              <div class="data-text-wrap">
+                <div class="data-number">2.49<span style="font-size:16px">倍</span></div>
+                <div class="data-unit">牙龈问题改善率</div>
+              </div>
+            </div>
+            <div class="data-card-back">
+              <div class="data-back-title">临床验证</div>
+              <div class="data-back-desc">经临床验证，拥有2.49倍牙龈问题改善率，效果有据可依</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-card anim-up anim-d4" onclick="flipDataCard(this)">
+          <div class="data-card-inner">
+            <div class="data-card-front">
+              <div class="data-icon-wrap">🛡️</div>
+              <div class="data-text-wrap">
+                <div class="data-number">99.99<span style="font-size:16px">%</span></div>
+                <div class="data-unit">抑制口腔有害菌</div>
+              </div>
+            </div>
+            <div class="data-card-back">
+              <div class="data-back-title">权威检测</div>
+              <div class="data-back-desc">第三方权威机构检测，99.99%抑制口腔有害菌能力</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-card anim-right anim-d5" onclick="flipDataCard(this)">
+          <div class="data-card-inner">
+            <div class="data-card-front">
+              <div class="data-icon-wrap">⚡</div>
+              <div class="data-text-wrap">
+                <div class="data-number">3<span style="font-size:16px">天</span></div>
+                <div class="data-unit">改善受损口腔黏膜</div>
+              </div>
+            </div>
+            <div class="data-card-back">
+              <div class="data-back-title">快速见效</div>
+              <div class="data-back-desc">3天即可改善受损口腔黏膜，让你快速感受修护力量</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="data-hint anim-fade anim-d6">点击翻转</div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 8: Brushing ========== -->
+  <section class="page page-brush" data-index="7">
+    <div class="section-title anim-up anim-d1">互动体验<br>模拟刷牙</div>
+    <div class="section-subtitle anim-up anim-d2">在牙齿区域滑动手指，感受清洁力量</div>
+    <div class="brush-content">
+      <div class="tooth-area anim-scale anim-d3" id="toothArea">
+        <div style="padding:12px 8px 0">
+          <div class="tooth-gum inflamed" id="gumTop"></div>
+          <div class="tooth-row" id="toothRow1"></div>
+          <div class="tooth-gum inflamed" id="gumMid" style="margin-top:8px"></div>
+          <div class="tooth-row" id="toothRow2" style="margin-top:2px"></div>
+          <div class="tooth-gum inflamed" id="gumBot" style="margin-top:8px"></div>
+        </div>
+      </div>
+      <div class="brush-progress anim-up anim-d4">
+        <div class="brush-progress-bar" id="brushProgress"></div>
+      </div>
+      <div class="brush-text anim-fade anim-d5" id="brushText">👆 在牙齿上滑动开始清洁</div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 9: Before/After Compare ========== -->
+  <section class="page page-compare" data-index="8">
+    <div class="section-title anim-up anim-d1">焕白对比<br>效果见证</div>
+    <div class="section-subtitle anim-up anim-d2">拖动滑块查看使用前后对比</div>
+    <div class="compare-content">
+      <div class="compare-container anim-scale anim-d3" id="compareContainer">
+        <div class="compare-before">
+          <span class="compare-label">使用前</span>
+          <div class="compare-smile">😬</div>
+          <div class="compare-state before-state">牙龈红肿 出血</div>
+          <div class="compare-desc before-desc">牙菌斑侵蚀<br>口腔问题反复发作</div>
+        </div>
+        <div class="compare-after" id="compareAfter">
+          <span class="compare-label">使用后</span>
+          <div class="compare-smile">😁</div>
+          <div class="compare-state after-state">牙龈健康 焕白</div>
+          <div class="compare-desc after-desc">根源修护<br>口腔健康持久守护</div>
+        </div>
+        <div class="compare-slider" id="compareSlider">
+          <div class="compare-slider-handle">⇔</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 10: Product Family ========== -->
+  <section class="page page-family" data-index="9">
+    <div class="section-title anim-up anim-d1">纳爱斯<br>养龈健齿家族</div>
+    <div class="section-subtitle anim-up anim-d2">左右滑动浏览产品</div>
+    <div class="family-content">
+      <div class="family-scroll anim-up anim-d3">
+        <div class="family-card">
+          <img src="product-120g.png" alt="清火护龈" class="family-card-img">
+          <div class="family-card-name">清火护龈牙膏</div>
+          <div class="family-card-spec">本草薄荷香型 · 120g</div>
+          <div class="family-card-features">
+            <div class="family-card-feature">2.49倍牙龈问题改善率</div>
+            <div class="family-card-feature">金银花·黄芩·连翘</div>
+            <div class="family-card-feature">GUM4X牙龈修护科技</div>
+          </div>
+        </div>
+        <div class="family-card">
+          <img src="product-140g.png" alt="抗敏护龈" class="family-card-img">
+          <div class="family-card-name">抗敏护龈牙膏</div>
+          <div class="family-card-spec">清新森林香型 · 140g</div>
+          <div class="family-card-features">
+            <div class="family-card-feature">5倍抗敏修护力</div>
+            <div class="family-card-feature">3重抗敏成分</div>
+            <div class="family-card-feature">GUM4X牙龈修护科技</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 11: Mint Challenge Game ========== -->
+  <section class="page page-game" data-index="10">
+    <div class="section-title anim-up anim-d1" style="color:#fff">清新挑战</div>
+    <div class="section-subtitle anim-up anim-d2" style="color:rgba(255,255,255,0.6)">15秒内收集尽可能多的薄荷叶</div>
+    <div class="game-content">
+      <div class="game-header anim-up anim-d2">
+        <div class="game-score">清新值：<span id="gameScore">0</span></div>
+        <div class="game-timer"><span id="gameTimer">15</span>s</div>
+      </div>
+      <div class="game-area anim-scale anim-d3" id="gameArea"></div>
+      <button class="game-start-btn anim-up anim-d4" id="gameStartBtn">开始挑战</button>
+      <div class="game-result" id="gameResult">
+        <div class="game-result-score" id="gameResultScore">0</div>
+        <div class="game-result-text">片薄荷叶！你的清新值</div>
+        <button class="game-start-btn" onclick="resetGame()" style="margin-top:12px">再来一次</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 12: Reviews ========== -->
+  <section class="page page-reviews" data-index="11">
+    <div class="section-title anim-up anim-d1">口碑见证<br>真实好评</div>
+    <div class="reviews-content">
+      <div class="reviews-carousel anim-up anim-d3">
+        <div class="reviews-track" id="reviewsTrack">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">牙龈出血问题用了两周就明显改善了，口气也清新了很多，真心推荐！</div>
+            <div class="review-author">
+              <div class="review-avatar">😊</div>
+              <div><div class="review-name">小鱼儿</div><div class="review-tag">清火护龈用户</div></div>
+            </div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">之前一直牙龈敏感，用了纳爱斯抗敏款之后冷热酸甜都不怕了，效果很棒！</div>
+            <div class="review-author">
+              <div class="review-avatar">😄</div>
+              <div><div class="review-name">阳光少年</div><div class="review-tag">抗敏护龈用户</div></div>
+            </div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">天然草本成分让我很放心，薄荷味清新不刺激，全家都在用！</div>
+            <div class="review-author">
+              <div class="review-avatar">🥰</div>
+              <div><div class="review-name">幸福一家人</div><div class="review-tag">老用户回购</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reviews-dots anim-fade anim-d4" id="reviewsDots">
+        <div class="reviews-dot active"></div>
+        <div class="reviews-dot"></div>
+        <div class="reviews-dot"></div>
+      </div>
+      <div class="cert-tags anim-up anim-d5">
+        <span class="cert-tag">国家运动员备战保障产品</span>
+        <span class="cert-tag">浙产美妆十大品牌</span>
+        <span class="cert-tag">浙江省优秀工业产品</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Screen 13: CTA ========== -->
+  <section class="page page-cta" data-index="12">
+    <div class="cta-glow"></div>
+    <div class="cta-content">
+      <img src="logo.png" alt="纳爱斯" class="cta-logo anim-scale anim-d1">
+      <div class="cta-slogan anim-up anim-d2">根源修护力<br>笑容超元气</div>
+      <div class="cta-sub anim-up anim-d3">纳爱斯养龈健齿 · 从根源守护口腔健康</div>
+      <div class="cta-values">
+        <div class="cta-value-item anim-up anim-d4">
+          <div class="cta-value-icon">🔬</div>
+          <div class="cta-value-text">研发实力<small>参与14项行业标准制定</small></div>
+        </div>
+        <div class="cta-value-item anim-up anim-d5">
+          <div class="cta-value-icon">🌿</div>
+          <div class="cta-value-text">天然安心<small>甄选天然健康原料</small></div>
+        </div>
+        <div class="cta-value-item anim-up anim-d6">
+          <div class="cta-value-icon">✅</div>
+          <div class="cta-value-text">严苛品控<small>169道工序检验把关</small></div>
+        </div>
+      </div>
+      <div class="cta-footer anim-fade anim-d7">
+        <div class="cta-brand">NICE · 纳爱斯</div>
+        <div class="cta-slogan-small">养龈健齿 笑纳百味</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ========== State ==========
+  var currentPage = 0;
+  var totalPages = 13;
+  var isTransitioning = false;
+  var touchStartY = 0;
+  var touchStartX = 0;
+  var touchStartTime = 0;
+  var touchMoveY = 0;
+
+  // ========== Navigation Dots ==========
+  var dotsContainer = document.getElementById('navDots');
+  for (var i = 0; i < totalPages; i++) {
+    var dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('data-index', i);
+    dot.addEventListener('click', function () { goToPage(parseInt(this.getAttribute('data-index'))); });
+    dotsContainer.appendChild(dot);
+  }
+
+  function updateNavDots() {
+    var dots = document.querySelectorAll('.nav-dot');
+    dots.forEach(function (d, idx) { d.classList.toggle('active', idx === currentPage); });
+    document.getElementById('pageIndicator').textContent = (currentPage + 1) + ' / ' + totalPages;
+  }
+
+  // ========== Page Switching ==========
+  window.goToPage = function (index) {
+    if (isTransitioning || index === currentPage || index < 0 || index >= totalPages) return;
+    isTransitioning = true;
+    currentPage = index;
+    var wrapper = document.getElementById('pagesWrapper');
+    wrapper.style.transition = 'transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94)';
+    wrapper.style.transform = 'translateY(-' + (currentPage * 100) + 'vh)';
+    updateNavDots();
+    triggerPageAnimations(currentPage);
+    setTimeout(function () { isTransitioning = false; }, 650);
+  };
+
+  // ========== Page Enter Animations ==========
+  function triggerPageAnimations(index) {
+    var pages = document.querySelectorAll('.page');
+    var target = pages[index];
+    target.classList.remove('active');
+    void target.offsetWidth;
+    target.classList.add('active');
+  }
+
+  // ========== Touch & Swipe — Optimized for Mobile ==========
+  var interactiveSelectors = '.game-area, .compare-slider, .compare-container, .family-scroll, .reviews-carousel, .tooth-area, .btn-primary, .pain-bubble, .tech-node, .ingredient-card, .data-card, .root-press-area, .game-leaf, .game-start-btn';
+
+  document.addEventListener('touchstart', function (e) {
+    if (e.target.closest(interactiveSelectors)) return;
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+    touchStartTime = Date.now();
+    touchMoveY = touchStartY;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function (e) {
+    if (e.target.closest(interactiveSelectors)) return;
+    touchMoveY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function (e) {
+    if (e.target.closest(interactiveSelectors)) return;
+    var endY = e.changedTouches[0].clientY;
+    var endX = e.changedTouches[0].clientX;
+    var deltaY = touchStartY - endY;
+    var deltaX = touchStartX - endX;
+    var elapsed = Date.now() - touchStartTime;
+
+    var isVerticalSwipe = Math.abs(deltaY) > Math.abs(deltaX) * 0.6;
+    var isQuickSwipe = Math.abs(deltaY) > 30 && elapsed < 1200;
+    var isSlowDrag = Math.abs(deltaY) > 80;
+
+    if (isVerticalSwipe && (isQuickSwipe || isSlowDrag)) {
+      if (deltaY > 0) goToPage(currentPage + 1);
+      else goToPage(currentPage - 1);
+    }
+  }, { passive: true });
+
+  // Mouse wheel
+  var wheelTimer = null;
+  document.addEventListener('wheel', function (e) {
+    if (wheelTimer) return;
+    wheelTimer = setTimeout(function () { wheelTimer = null; }, 900);
+    if (e.deltaY > 25) goToPage(currentPage + 1);
+    else if (e.deltaY < -25) goToPage(currentPage - 1);
+  }, { passive: true });
+
+  // Keyboard
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goToPage(currentPage + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); goToPage(currentPage - 1); }
+  });
+
+  // ========== Screen 2: Pain Bubbles ==========
+  window.togglePain = function (el) {
+    el.classList.toggle('revealed');
+    addRipple(el);
+  };
+
+  // ========== Screen 3: Root Cause Press ==========
+  var rootPressTimer = null;
+  window.startRootPress = function () {
+    var area = document.getElementById('rootPressArea');
+    area.classList.add('pressing');
+    rootPressTimer = setTimeout(function () {
+      document.getElementById('rootReveal').classList.add('show');
+    }, 1500);
+  };
+  window.endRootPress = function () {
+    var area = document.getElementById('rootPressArea');
+    area.classList.remove('pressing');
+    if (rootPressTimer) { clearTimeout(rootPressTimer); rootPressTimer = null; }
+  };
+
+  // ========== Screen 5: Tech Nodes ==========
+  window.toggleTechNode = function (el) {
+    document.querySelectorAll('.tech-node').forEach(function (n) {
+      if (n !== el) n.classList.remove('active');
+    });
+    el.classList.toggle('active');
+    addRipple(el);
+  };
+
+  // ========== Screen 6: Ingredients ==========
+  window.toggleIngredient = function (el) {
+    document.querySelectorAll('.ingredient-card').forEach(function (c) {
+      if (c !== el) c.classList.remove('active');
+    });
+    el.classList.toggle('active');
+  };
+
+  // ========== Screen 7: Data Flip ==========
+  window.flipDataCard = function (el) {
+    el.classList.toggle('flipped');
+  };
+
+  function fixDataCardHeights() {
+    var cards = document.querySelectorAll('.data-card');
+    cards.forEach(function(card) {
+      var front = card.querySelector('.data-card-front');
+      var back = card.querySelector('.data-card-back');
+      var inner = card.querySelector('.data-card-inner');
+      if (front && back && inner) {
+        front.style.position = 'relative';
+        var fh = front.offsetHeight;
+        front.style.position = '';
+        back.style.position = 'relative';
+        back.style.transform = 'none';
+        var bh = back.offsetHeight;
+        back.style.position = '';
+        back.style.transform = '';
+        var h = Math.max(fh, bh);
+        inner.style.height = h + 'px';
+      }
+    });
+  }
+
+  // ========== Screen 8: Brushing Interaction ==========
+  var brushProgress = 0;
+  var cleanedTeeth = 0;
+  var totalTeeth = 0;
+
+  function initBrushing() {
+    var row1 = document.getElementById('toothRow1');
+    var row2 = document.getElementById('toothRow2');
+    var teethPerRow = 7;
+    totalTeeth = teethPerRow * 2;
+    for (var i = 0; i < teethPerRow; i++) {
+      var t1 = document.createElement('div');
+      t1.className = 'tooth dirty';
+      t1.setAttribute('data-cleaned', '0');
+      row1.appendChild(t1);
+      var t2 = document.createElement('div');
+      t2.className = 'tooth dirty';
+      t2.setAttribute('data-cleaned', '0');
+      row2.appendChild(t2);
+    }
+
+    var toothArea = document.getElementById('toothArea');
+
+    function handleBrushMove(x, y) {
+      if (brushProgress >= 100) return;
+      var teeth = toothArea.querySelectorAll('.tooth');
+      teeth.forEach(function (tooth) {
+        var rect = tooth.getBoundingClientRect();
+        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+          if (tooth.getAttribute('data-cleaned') === '0') {
+            tooth.setAttribute('data-cleaned', '1');
+            tooth.classList.remove('dirty');
+            tooth.classList.add('clean');
+            cleanedTeeth++;
+            brushProgress = Math.min(100, Math.round((cleanedTeeth / totalTeeth) * 100));
+            document.getElementById('brushProgress').style.width = brushProgress + '%';
+          }
+          var foam = document.createElement('div');
+          foam.className = 'foam-particle';
+          var foamSize = 4 + Math.random() * 10;
+          foam.style.width = foamSize + 'px';
+          foam.style.height = foamSize + 'px';
+          foam.style.left = (x - rect.left - foamSize / 2 + Math.random() * 10 - 5) + 'px';
+          foam.style.top = (y - rect.top - foamSize / 2 + Math.random() * 10 - 5) + 'px';
+          toothArea.appendChild(foam);
+          setTimeout(function () { foam.remove(); }, 800);
+        }
+      });
+
+      if (brushProgress >= 100) {
+        document.getElementById('brushText').textContent = '✨ 牙齿焕然一新！';
+        document.getElementById('brushText').style.color = '#2DB87B';
+        document.getElementById('brushText').style.fontWeight = '700';
+        document.getElementById('gumTop').classList.remove('inflamed');
+        document.getElementById('gumTop').classList.add('healthy');
+        document.getElementById('gumMid').classList.remove('inflamed');
+        document.getElementById('gumMid').classList.add('healthy');
+        document.getElementById('gumBot').classList.remove('inflamed');
+        document.getElementById('gumBot').classList.add('healthy');
+      } else if (brushProgress > 0) {
+        document.getElementById('brushText').textContent = '清洁进度 ' + brushProgress + '%';
+      }
+    }
+
+    toothArea.addEventListener('touchmove', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var touch = e.touches[0];
+      handleBrushMove(touch.clientX, touch.clientY);
+    }, { passive: false });
+    toothArea.addEventListener('mousemove', function (e) {
+      if (e.buttons === 1) handleBrushMove(e.clientX, e.clientY);
+    });
+  }
+
+  // ========== Screen 9: Before/After Compare ==========
+  function initCompareSlider() {
+    var container = document.getElementById('compareContainer');
+    var slider = document.getElementById('compareSlider');
+    var afterEl = document.getElementById('compareAfter');
+    var isDragging = false;
+
+    function updateSlider(x) {
+      var rect = container.getBoundingClientRect();
+      var pos = Math.max(0, Math.min(x - rect.left, rect.width));
+      var pct = (pos / rect.width) * 100;
+      slider.style.left = pct + '%';
+      afterEl.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
+    }
+
+    slider.addEventListener('touchstart', function (e) {
+      isDragging = true;
+      e.stopPropagation();
+    }, { passive: true });
+    slider.addEventListener('mousedown', function () { isDragging = true; });
+    document.addEventListener('touchmove', function (e) {
+      if (!isDragging) return;
+      updateSlider(e.touches[0].clientX);
+    }, { passive: true });
+    document.addEventListener('mousemove', function (e) {
+      if (!isDragging) return;
+      updateSlider(e.clientX);
+    });
+    document.addEventListener('touchend', function () { isDragging = false; });
+    document.addEventListener('mouseup', function () { isDragging = false; });
+
+    container.addEventListener('click', function (e) {
+      if (e.target === slider || slider.contains(e.target)) return;
+      updateSlider(e.clientX);
+    });
+    container.addEventListener('touchstart', function (e) {
+      if (e.target === slider || slider.contains(e.target)) return;
+      updateSlider(e.touches[0].clientX);
+    }, { passive: true });
+  }
+
+  // ========== Screen 11: Mint Challenge Game ==========
+  var gameScore = 0;
+  var gameTimer = null;
+  var gameLeafInterval = null;
+  var gameRunning = false;
+
+  window.resetGame = function () {
+    gameScore = 0;
+    document.getElementById('gameScore').textContent = '0';
+    document.getElementById('gameTimer').textContent = '15';
+    document.getElementById('gameResult').classList.remove('show');
+    document.getElementById('gameStartBtn').style.display = '';
+    document.getElementById('gameArea').innerHTML = '';
+    gameRunning = false;
+    if (gameTimer) clearInterval(gameTimer);
+    if (gameLeafInterval) clearInterval(gameLeafInterval);
+  };
+
+  document.getElementById('gameStartBtn').addEventListener('click', function () {
+    if (gameRunning) return;
+    gameRunning = true;
+    gameScore = 0;
+    var timeLeft = 15;
+    this.style.display = 'none';
+    document.getElementById('gameResult').classList.remove('show');
+    document.getElementById('gameScore').textContent = '0';
+
+    gameTimer = setInterval(function () {
+      timeLeft--;
+      document.getElementById('gameTimer').textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(gameTimer);
+        clearInterval(gameLeafInterval);
+        gameRunning = false;
+        showGameResult();
+      }
+    }, 1000);
+
+    var area = document.getElementById('gameArea');
+    gameLeafInterval = setInterval(function () {
+      if (!gameRunning) return;
+      var leaf = document.createElement('div');
+      leaf.className = 'game-leaf';
+      var leafEmojis = ['🍃', '🌿', '☘️', '🍀'];
+      leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+      leaf.style.left = (8 + Math.random() * 84) + '%';
+      var duration = 2.5 + Math.random() * 2;
+      leaf.style.animationDuration = duration + 's';
+
+      function collectLeaf() {
+        if (!gameRunning) return;
+        gameScore++;
+        document.getElementById('gameScore').textContent = gameScore;
+        this.style.transform = 'scale(1.8)';
+        this.style.opacity = '0';
+        setTimeout(function () { if (leaf.parentNode) leaf.remove(); }, 200);
+      }
+
+      leaf.addEventListener('click', collectLeaf);
+      leaf.addEventListener('touchstart', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        collectLeaf.call(this);
+      }, { passive: false });
+
+      area.appendChild(leaf);
+      setTimeout(function () { if (leaf.parentNode) leaf.remove(); }, duration * 1000);
+    }, 600);
+  });
+
+  function showGameResult() {
+    var result = document.getElementById('gameResult');
+    document.getElementById('gameResultScore').textContent = gameScore;
+    result.classList.add('show');
+    document.getElementById('gameArea').innerHTML = '';
+  }
+
+  // ========== Screen 12: Reviews Carousel ==========
+  function initReviewsCarousel() {
+    var track = document.getElementById('reviewsTrack');
+    var dots = document.querySelectorAll('#reviewsDots .reviews-dot');
+    var currentReview = 0;
+    var totalReviews = 3;
+
+    function goToReview(index) {
+      currentReview = index;
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      dots.forEach(function (d, i) { d.classList.toggle('active', i === index); });
+    }
+
+    setInterval(function () {
+      if (currentPage !== 11) return;
+      goToReview((currentReview + 1) % totalReviews);
+    }, 4000);
+
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { goToReview(i); });
+    });
+
+    var reviewStartX = 0;
+    var carousel = document.querySelector('.reviews-carousel');
+    carousel.addEventListener('touchstart', function (e) {
+      reviewStartX = e.touches[0].clientX;
+      e.stopPropagation();
+    }, { passive: true });
+    carousel.addEventListener('touchend', function (e) {
+      e.stopPropagation();
+      var delta = reviewStartX - e.changedTouches[0].clientX;
+      if (Math.abs(delta) > 40) {
+        if (delta > 0) goToReview(Math.min(currentReview + 1, totalReviews - 1));
+        else goToReview(Math.max(currentReview - 1, 0));
+      }
+    }, { passive: true });
+  }
+
+  // ========== Ripple Effect ==========
+  function addRipple(el) {
+    var ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    var rect = el.getBoundingClientRect();
+    var size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = '50%';
+    ripple.style.top = '50%';
+    ripple.style.marginLeft = -(size / 2) + 'px';
+    ripple.style.marginTop = -(size / 2) + 'px';
+    el.style.position = 'relative';
+    el.style.overflow = 'hidden';
+    el.appendChild(ripple);
+    setTimeout(function () { ripple.remove(); }, 600);
+  }
+
+  // ========== Particle Canvas (Bubbles) ==========
+  function initParticleCanvas() {
+    var canvas = document.getElementById('particle-canvas');
+    var ctx = canvas.getContext('2d');
+    var bubbles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function Bubble() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height + 20;
+      this.r = 2 + Math.random() * 4;
+      this.speed = 0.3 + Math.random() * 0.8;
+      this.opacity = 0.06 + Math.random() * 0.1;
+      this.wobble = Math.random() * Math.PI * 2;
+      this.wobbleSpeed = 0.01 + Math.random() * 0.02;
+    }
+
+    for (var i = 0; i < 20; i++) {
+      var b = new Bubble();
+      b.y = Math.random() * canvas.height;
+      bubbles.push(b);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      bubbles.forEach(function (b) {
+        b.y -= b.speed;
+        b.wobble += b.wobbleSpeed;
+        b.x += Math.sin(b.wobble) * 0.5;
+        if (b.y < -20) {
+          b.y = canvas.height + 20;
+          b.x = Math.random() * canvas.width;
+        }
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(45,184,123,' + b.opacity + ')';
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+
+  // ========== Init ==========
+  function init() {
+    initBrushing();
+    initCompareSlider();
+    initReviewsCarousel();
+    initParticleCanvas();
+    fixDataCardHeights();
+    triggerPageAnimations(0);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
+</body>
+</html>
